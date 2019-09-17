@@ -1,0 +1,17 @@
+
+
+	.imgbody{
+		background: url(../images/login.jpg);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-attachment:fixed ;
+	}
+	
+.myTitle{
+		position: fixed;
+		top: 15%;
+		left: 35%;
+		letter-spacing: 20px;
+		font-family: STCaiyun;
+		font-size: 38px;
+	}

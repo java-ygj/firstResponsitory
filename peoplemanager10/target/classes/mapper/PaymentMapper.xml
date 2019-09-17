@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.PaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.Payment" >
+    <id column="payment_id" property="paymentId" jdbcType="INTEGER" />
+    <result column="employee_no" property="employeeNo" jdbcType="CHAR" />
+    <result column="basic_payment" property="basicPayment" jdbcType="INTEGER" />
+    <result column="performance" property="performance" jdbcType="REAL" />
+    <result column="reward" property="reward" jdbcType="REAL" />
+    <result column="punishment" property="punishment" jdbcType="REAL" />
+    <result column="salary" property="salary" jdbcType="REAL" />
+    <result column="get_salary_time" property="getSalaryTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    payment_id, employee_no, basic_payment, performance, reward, punishment, salary, 
+    get_salary_time
+  </sql>
+  
+  <!-- 分页查询 -->
+  <select id="paymentPage" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List"/> FROM payment LIMIT #{start},#{rows}
+  </select>
+  <!-- 总条数查询 -->
+  <select id="countPayment" resultType="Integer">
+  	SELECT count(payment_id) FROM payment
+  </select>
+  
+  <!-- 模糊查询 -->
+  <select id="searchPaymentByLike" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List"/> FROM payment WHERE 1=1
+  	<if test="employeeNo != null and employeeNo !=''">
+  	 and employee_no LIKE #{employeeNo} 
+  	 </if>
+  	 LIMIT #{start},#{rows}
+  </select>
+  <select id="countPaymentByLike" resultType="Integer">
+  	SELECT COUNT(payment_id) FROM payment WHERE 1=1
+  	<if test="employeeNo != null and employeeNo !=''">
+  	 and employee_no LIKE #{employeeNo} 
+  	 </if>
+  </select>
+  
+  <insert id="addPayment">
+  	INSERT INTO payment(employee_no, basic_payment, performance, reward, punishment, salary, get_salary_time)
+  	VALUES(#{employeeNo},#{basicPayment},#{performance},#{reward},#{punishment},#{salary},#{getSalaryTime})
+  </insert>
+  
+  <delete id="deletePayment">
+  	DELETE FROM payment where payment_id=#{paymentId}
+  </delete>
+  
+  <update id="updatePayment">
+  	UPDATE payment set 
+  		employee_no=#{employeeNo}, 
+  		basic_payment=#{basicPayment}, 
+  		performance=#{performance}, 
+  		reward=#{reward}, 
+  		punishment=#{punishment}, 
+  		salary=#{salary}, 
+  		get_salary_time=#{getSalaryTime}
+  		WHERE payment_id=#{paymentId}
+  </update>
+  
+  
+</mapper>

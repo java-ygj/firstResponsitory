@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.PowerMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.Power" >
+    <id column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="p_name" property="pName" jdbcType="CHAR" />
+    <result column="p_remark" property="pRemark" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    p_id, p_name, p_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from power
+    where p_id = #{pId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from power
+    where p_id = #{pId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.Power" >
+    insert into power (p_id, p_name, p_remark
+      )
+    values (#{pId,jdbcType=INTEGER}, #{pName,jdbcType=CHAR}, #{pRemark,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.Power" >
+    insert into power
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+      <if test="pRemark != null" >
+        p_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=CHAR},
+      </if>
+      <if test="pRemark != null" >
+        #{pRemark,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.Power" >
+    update power
+    <set >
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=CHAR},
+      </if>
+      <if test="pRemark != null" >
+        p_remark = #{pRemark,jdbcType=CHAR},
+      </if>
+    </set>
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.Power" >
+    update power
+    set p_name = #{pName,jdbcType=CHAR},
+      p_remark = #{pRemark,jdbcType=CHAR}
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+</mapper>

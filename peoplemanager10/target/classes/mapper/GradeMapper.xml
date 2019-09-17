@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.GradeMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.Grade" >
+    <id column="exam_id" property="examId" jdbcType="INTEGER" />
+    <result column="exam_name" property="examName" jdbcType="CHAR" />
+    <result column="person_name" property="personName" jdbcType="CHAR" />
+    <result column="department" property="department" jdbcType="CHAR" />
+    <result column="grade" property="grade" jdbcType="REAL" />
+    <result column="exam_end_time" property="examEndTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    exam_id, exam_name, person_name, department, grade, exam_end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from grade
+    where exam_id = #{examId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from grade
+    where exam_id = #{examId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.Grade" >
+    insert into grade (exam_id, exam_name, person_name, 
+      department, grade, exam_end_time
+      )
+    values (#{examId,jdbcType=INTEGER}, #{examName,jdbcType=CHAR}, #{personName,jdbcType=CHAR}, 
+      #{department,jdbcType=CHAR}, #{grade,jdbcType=REAL}, #{examEndTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.Grade" >
+    insert into grade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="examId != null" >
+        exam_id,
+      </if>
+      <if test="examName != null" >
+        exam_name,
+      </if>
+      <if test="personName != null" >
+        person_name,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="examEndTime != null" >
+        exam_end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="examId != null" >
+        #{examId,jdbcType=INTEGER},
+      </if>
+      <if test="examName != null" >
+        #{examName,jdbcType=CHAR},
+      </if>
+      <if test="personName != null" >
+        #{personName,jdbcType=CHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=CHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=REAL},
+      </if>
+      <if test="examEndTime != null" >
+        #{examEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.Grade" >
+    update grade
+    <set >
+      <if test="examName != null" >
+        exam_name = #{examName,jdbcType=CHAR},
+      </if>
+      <if test="personName != null" >
+        person_name = #{personName,jdbcType=CHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=CHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=REAL},
+      </if>
+      <if test="examEndTime != null" >
+        exam_end_time = #{examEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where exam_id = #{examId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.Grade" >
+    update grade
+    set exam_name = #{examName,jdbcType=CHAR},
+      person_name = #{personName,jdbcType=CHAR},
+      department = #{department,jdbcType=CHAR},
+      grade = #{grade,jdbcType=REAL},
+      exam_end_time = #{examEndTime,jdbcType=TIMESTAMP}
+    where exam_id = #{examId,jdbcType=INTEGER}
+  </update>
+</mapper>

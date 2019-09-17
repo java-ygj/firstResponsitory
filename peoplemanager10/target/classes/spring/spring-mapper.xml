@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		   http://www.springframework.org/schema/beans/spring-beans.xsd 
+		   http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- 导入mybatis目录下的属性文件jdbc.properties -->
+	<!-- 改1 -->
+	<context:property-placeholder
+		location="classpath:mybatis/jdbc.properties" />
+
+	<!-- spring 整合mybatis -->
+	<!-- 数据源 数据库连接池 -->
+	<!-- 利用spring的属性注入，bean，名字就是name=的值(不可更改) ,id=datasoures缩写ds -->
+	<bean id="ds" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${jdbcUrl}" />
+		<property name="user" value="${user}" />
+		<property name="password" value="${password}" />
+
+		<!-- 连接池私有属性 -->
+		<!-- 和电脑（服务器）的配置相关，合理的配置连接池会提高用户访问速度，降低服务器的压力 -->
+		<property name="maxPoolSize" value="30"></property>
+
+		<property name="minPoolSize" value="10"></property>
+		<!--关闭连接后不自动Commit -->
+		<property name="autoCommitOnClose" value="false"></property>
+		<!-- 获取连接超时时间 -->
+		<property name="checkoutTimeout" value="1000"></property>
+		<!-- 当获取连接失败重试次数，连接失败重链接两次，还失败会报错 -->
+		<property name="acquireRetryAttempts" value="2"></property>
+	</bean>
+
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<!-- 属性注入；这就是以前写的DButil写的sqlsessionfactory -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入上面配置的数据源对象 -->
+		<property name="dataSource" ref="ds" />
+		<!-- 配置mybatis的配置文件 -->
+		<!-- 改2 -->
+		<property name="configLocation"
+			value="classpath:mybatis/mybatis-config.xml"></property>
+		<!-- com.xxx.po中的类都有别名，比如com.xxx.po.Stu的别名是stu或Stu -->
+		<!-- 改3 -->
+		<property name="typeAliasesPackage"
+			value="com.hqyj.personel.po"></property>
+		<!-- 配置所有的映射文件,要求映射文件都写在目录mapper中 -->
+		<!-- 改4 -->
+		<property name="mapperLocations"
+			value="classpath:mapper/*.xml" />
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 配置mybatis的接口所在的包 -->
+		<!-- 改5 -->
+		<property name="basePackage" value="com.hqyj.personel.mapper" />
+		<!-- 注入sqlSessionFactory工厂对象 -->
+		<property name="sqlSessionFactoryBeanName"
+			value="sqlSessionFactory" />
+	</bean>
+	<!-- 导入shiro -->
+	<!-- 改6 -->
+	<import resource="classpath:shiro/shiro.xml" />
+
+	<!--配置邮件 -->
+	<!-- 改7 -->
+	<bean id="javaMailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<!--邮件服务器地址 -->
+		<property name="host" value="smtp.qq.com" />
+		<!--登录邮件服务器的用户 -->
+		<property name="username" value="1975492517@qq.com" />
+		<!--登录邮件服务器的用户的授权码 -->
+		<property name="password" value="qehhlnnivbgveibg" />
+		<!-- 编码设置 -->
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+
+</beans>

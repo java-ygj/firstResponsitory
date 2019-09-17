@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.AssessMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.Assess" >
+    <id column="assess_id" property="assessId" jdbcType="INTEGER" />
+    <result column="assess_name" property="assessName" jdbcType="CHAR" />
+    <result column="assess_catergery" property="assessCatergery" jdbcType="CHAR" />
+    <result column="assess_begintime" property="assessBegintime" jdbcType="TIMESTAMP" />
+    <result column="assess_num" property="assessNum" jdbcType="INTEGER" />
+    <result column="assess_department" property="assessDepartment" jdbcType="CHAR" />
+    <result column="assess_time" property="assessTime" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    assess_id, assess_name, assess_catergery, assess_begintime, assess_num, assess_department, 
+    assess_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from assess
+    where assess_id = #{assessId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from assess
+    where assess_id = #{assessId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.Assess" >
+    insert into assess (assess_id, assess_name, assess_catergery, 
+      assess_begintime, assess_num, assess_department, 
+      assess_time)
+    values (#{assessId,jdbcType=INTEGER}, #{assessName,jdbcType=CHAR}, #{assessCatergery,jdbcType=CHAR}, 
+      #{assessBegintime,jdbcType=TIMESTAMP}, #{assessNum,jdbcType=INTEGER}, #{assessDepartment,jdbcType=CHAR}, 
+      #{assessTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.Assess" >
+    insert into assess
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="assessId != null" >
+        assess_id,
+      </if>
+      <if test="assessName != null" >
+        assess_name,
+      </if>
+      <if test="assessCatergery != null" >
+        assess_catergery,
+      </if>
+      <if test="assessBegintime != null" >
+        assess_begintime,
+      </if>
+      <if test="assessNum != null" >
+        assess_num,
+      </if>
+      <if test="assessDepartment != null" >
+        assess_department,
+      </if>
+      <if test="assessTime != null" >
+        assess_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="assessId != null" >
+        #{assessId,jdbcType=INTEGER},
+      </if>
+      <if test="assessName != null" >
+        #{assessName,jdbcType=CHAR},
+      </if>
+      <if test="assessCatergery != null" >
+        #{assessCatergery,jdbcType=CHAR},
+      </if>
+      <if test="assessBegintime != null" >
+        #{assessBegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessNum != null" >
+        #{assessNum,jdbcType=INTEGER},
+      </if>
+      <if test="assessDepartment != null" >
+        #{assessDepartment,jdbcType=CHAR},
+      </if>
+      <if test="assessTime != null" >
+        #{assessTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.Assess" >
+    update assess
+    <set >
+      <if test="assessName != null" >
+        assess_name = #{assessName,jdbcType=CHAR},
+      </if>
+      <if test="assessCatergery != null" >
+        assess_catergery = #{assessCatergery,jdbcType=CHAR},
+      </if>
+      <if test="assessBegintime != null" >
+        assess_begintime = #{assessBegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessNum != null" >
+        assess_num = #{assessNum,jdbcType=INTEGER},
+      </if>
+      <if test="assessDepartment != null" >
+        assess_department = #{assessDepartment,jdbcType=CHAR},
+      </if>
+      <if test="assessTime != null" >
+        assess_time = #{assessTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where assess_id = #{assessId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.Assess" >
+    update assess
+    set assess_name = #{assessName,jdbcType=CHAR},
+      assess_catergery = #{assessCatergery,jdbcType=CHAR},
+      assess_begintime = #{assessBegintime,jdbcType=TIMESTAMP},
+      assess_num = #{assessNum,jdbcType=INTEGER},
+      assess_department = #{assessDepartment,jdbcType=CHAR},
+      assess_time = #{assessTime,jdbcType=INTEGER}
+    where assess_id = #{assessId,jdbcType=INTEGER}
+  </update>
+</mapper>

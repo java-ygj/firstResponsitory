@@ -1,0 +1,9 @@
+com.hqyj.personel.controller
+com.hqyj.personel.emailServiceImplTest
+com.hqyj.personel.mapper
+com.hqyj.personel.po
+com.hqyj.personel.service
+com.hqyj.personel.service.impl
+com.hqyj.personel.shiro
+com.hqyj.personel.util
+com.hqyj.personel.vo

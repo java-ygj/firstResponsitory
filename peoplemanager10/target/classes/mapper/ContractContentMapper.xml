@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.ContractContentMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.ContractContent" >
+    <id column="contract_content_id" property="contractContentId" jdbcType="INTEGER" />
+    <result column="contract_content_no" property="contractContentNo" jdbcType="CHAR" />
+    <result column="contract_content_type" property="contractContentType" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hqyj.personel.po.ContractContent" extends="BaseResultMap" >
+    <result column="contract_content" property="contractContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    contract_content_id, contract_content_no, contract_content_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    contract_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from contractcontent
+    where contract_content_id = #{contractContentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from contractcontent
+    where contract_content_id = #{contractContentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.ContractContent" >
+    insert into contractcontent (contract_content_id, contract_content_no, 
+      contract_content_type, contract_content)
+    values (#{contractContentId,jdbcType=INTEGER}, #{contractContentNo,jdbcType=CHAR}, 
+      #{contractContentType,jdbcType=CHAR}, #{contractContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.ContractContent" >
+    insert into contractcontent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contractContentId != null" >
+        contract_content_id,
+      </if>
+      <if test="contractContentNo != null" >
+        contract_content_no,
+      </if>
+      <if test="contractContentType != null" >
+        contract_content_type,
+      </if>
+      <if test="contractContent != null" >
+        contract_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contractContentId != null" >
+        #{contractContentId,jdbcType=INTEGER},
+      </if>
+      <if test="contractContentNo != null" >
+        #{contractContentNo,jdbcType=CHAR},
+      </if>
+      <if test="contractContentType != null" >
+        #{contractContentType,jdbcType=CHAR},
+      </if>
+      <if test="contractContent != null" >
+        #{contractContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.ContractContent" >
+    update contractcontent
+    <set >
+      <if test="contractContentNo != null" >
+        contract_content_no = #{contractContentNo,jdbcType=CHAR},
+      </if>
+      <if test="contractContentType != null" >
+        contract_content_type = #{contractContentType,jdbcType=CHAR},
+      </if>
+      <if test="contractContent != null" >
+        contract_content = #{contractContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where contract_content_id = #{contractContentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hqyj.personel.po.ContractContent" >
+    update contractcontent
+    set contract_content_no = #{contractContentNo,jdbcType=CHAR},
+      contract_content_type = #{contractContentType,jdbcType=CHAR},
+      contract_content = #{contractContent,jdbcType=LONGVARCHAR}
+    where contract_content_id = #{contractContentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.ContractContent" >
+    update contractcontent
+    set contract_content_no = #{contractContentNo,jdbcType=CHAR},
+      contract_content_type = #{contractContentType,jdbcType=CHAR}
+    where contract_content_id = #{contractContentId,jdbcType=INTEGER}
+  </update>
+</mapper>

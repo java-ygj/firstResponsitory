@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.ContractMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hqyj.personel.po.Contract">
+		<id column="contract_id" property="contractId" jdbcType="INTEGER" />
+		<result column="contract_no" property="contractNo"
+			jdbcType="CHAR" />
+		<result column="employee_no" property="employeeNo"
+			jdbcType="CHAR" />
+		<result column="contract_begin_date"
+			property="contractBeginDate" jdbcType="DATE" />
+		<result column="contract_end_date" property="contractEndDate"
+			jdbcType="DATE" />
+		<result column="position" property="position" jdbcType="CHAR" />
+		<result column="contract_remark" property="contractRemark"
+			jdbcType="CHAR" />
+		<result column="name" property="name" jdbcType="CHAR" />
+		<result column="department_id" property="departmentId"
+			jdbcType="CHAR" />
+		<result column="department_name" property="departmentName"
+			jdbcType="CHAR" />
+
+
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs"
+		type="com.hqyj.personel.po.Contract" extends="BaseResultMap">
+		<result column="contract_contents" property="contractContents"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		contract_id, contract_no, employee_no, contract_begin_date, contract_end_date,
+		position,
+		contract_remark,name,department_id,department_name
+	</sql>
+	<sql id="Blob_Column_List">
+		contract_contents
+	</sql>
+	<!-- /*1. 计算数量*/ -->
+	<select id="selectCount" resultType="java.lang.Integer">
+		select count(contract_id) from contract
+	</select>
+	<!-- /*2. 查询contract的list*/ -->
+	<select id="selectContractBySql" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from contract limit #{start},#{rows}
+
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from contract
+		where contract_id = #{contractId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from contract
+		where contract_id = #{contractId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.hqyj.personel.po.Contract">
+		insert into contract (contract_id, contract_no, employee_no,
+		contract_begin_date, contract_end_date, position,
+		contract_remark, contract_contents,name,department_id,department_name)
+		values (#{contractId,jdbcType=INTEGER}, #{contractNo,jdbcType=CHAR},
+		#{employeeNo,jdbcType=CHAR},
+		#{contractBeginDate,jdbcType=DATE}, #{contractEndDate,jdbcType=DATE}, #{position,jdbcType=CHAR},
+		#{contractRemark,jdbcType=CHAR},
+		#{contractContents,jdbcType=LONGVARCHAR},
+		#{name,jdbcType=CHAR},
+		#{departmentId,jdbcType=LONGVARCHAR},
+		#{departmentName,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.hqyj.personel.po.Contract">
+		insert into contract
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="contractId != null">
+				contract_id,
+			</if>
+			<if test="contractNo != null">
+				contract_no,
+			</if>
+			<if test="employeeNo != null">
+				employee_no,
+			</if>
+			<if test="contractBeginDate != null">
+				contract_begin_date,
+			</if>
+			<if test="contractEndDate != null">
+				contract_end_date,
+			</if>
+			<if test="position != null">
+				position,
+			</if>
+			<if test="contractRemark != null">
+				contract_remark,
+			</if>
+			<if test="contractContents != null">
+				contract_contents,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="contractId != null">
+				#{contractId,jdbcType=INTEGER},
+			</if>
+			<if test="contractNo != null">
+				#{contractNo,jdbcType=CHAR},
+			</if>
+			<if test="employeeNo != null">
+				#{employeeNo,jdbcType=CHAR},
+			</if>
+			<if test="contractBeginDate != null">
+				#{contractBeginDate,jdbcType=DATE},
+			</if>
+			<if test="contractEndDate != null">
+				#{contractEndDate,jdbcType=DATE},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=CHAR},
+			</if>
+			<if test="contractRemark != null">
+				#{contractRemark,jdbcType=CHAR},
+			</if>
+			<if test="contractContents != null">
+				#{contractContents,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.hqyj.personel.po.Contract">
+		update contract
+		<set>
+			<if test="contractNo != null">
+				contract_no = #{contractNo,jdbcType=CHAR},
+			</if>
+			<if test="employeeNo != null">
+				employee_no = #{employeeNo,jdbcType=CHAR},
+			</if>
+			<if test="contractBeginDate != null">
+				contract_begin_date = #{contractBeginDate,jdbcType=DATE},
+			</if>
+			<if test="contractEndDate != null">
+				contract_end_date = #{contractEndDate,jdbcType=DATE},
+			</if>
+			<if test="position != null">
+				position = #{position,jdbcType=CHAR},
+			</if>
+			<if test="contractRemark != null">
+				contract_remark = #{contractRemark,jdbcType=CHAR},
+			</if>
+			<if test="contractContents != null">
+				contract_contents = #{contractContents,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=CHAR},
+			</if>
+			<if test="departmentId != null">
+				department_id = #{departmentId,jdbcType=INTEGER},
+			</if>
+			<if test="departmentName != null">
+				department_name = #{departmentName,jdbcType=CHAR},
+			</if>
+		</set>
+		where contract_id = #{contractId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.hqyj.personel.po.Contract">
+		update contract
+		set contract_no = #{contractNo,jdbcType=CHAR},
+		employee_no = #{employeeNo,jdbcType=CHAR},
+		contract_begin_date = #{contractBeginDate,jdbcType=DATE},
+		contract_end_date = #{contractEndDate,jdbcType=DATE},
+		position = #{position,jdbcType=CHAR},
+		contract_remark = #{contractRemark,jdbcType=CHAR},
+		contract_contents = #{contractContents,jdbcType=LONGVARCHAR}
+		where contract_id = #{contractId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.hqyj.personel.po.Contract">
+		update contract
+		set contract_no = #{contractNo,jdbcType=CHAR},
+		employee_no = #{employeeNo,jdbcType=CHAR},
+		contract_begin_date = #{contractBeginDate,jdbcType=DATE},
+		contract_end_date = #{contractEndDate,jdbcType=DATE},
+		position = #{position,jdbcType=CHAR},
+		contract_remark = #{contractRemark,jdbcType=CHAR}
+		where contract_id = #{contractId,jdbcType=INTEGER}
+	</update>
+</mapper>

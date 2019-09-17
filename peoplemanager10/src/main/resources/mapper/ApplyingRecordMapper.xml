@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.ApplyingRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.ApplyingRecord" >
+    <id column="applying_id" property="applyingId" jdbcType="INTEGER" />
+    <result column="applying_no" property="applyingNo" jdbcType="CHAR" />
+    <result column="applying_name" property="applyingName" jdbcType="CHAR" />
+    <result column="applying_sex" property="applyingSex" jdbcType="CHAR" />
+    <result column="born_date" property="bornDate" jdbcType="DATE" />
+    <result column="telpone" property="telpone" jdbcType="CHAR" />
+    <result column="email_address" property="emailAddress" jdbcType="CHAR" />
+    <result column="applying_position" property="applyingPosition" jdbcType="CHAR" />
+    <result column="education_background" property="educationBackground" jdbcType="CHAR" />
+    <result column="experience" property="experience" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    applying_id, applying_no, applying_name, applying_sex, born_date, telpone, email_address, 
+    applying_position, education_background, experience, school, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from applyingrecord
+    where applying_id = #{applyingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from applyingrecord
+    where applying_id = #{applyingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.ApplyingRecord" >
+    insert into applyingrecord (applying_id, applying_no, applying_name, 
+      applying_sex, born_date, telpone, 
+      email_address, applying_position, education_background, 
+      experience, school, remark
+      )
+    values (#{applyingId,jdbcType=INTEGER}, #{applyingNo,jdbcType=CHAR}, #{applyingName,jdbcType=CHAR}, 
+      #{applyingSex,jdbcType=CHAR}, #{bornDate,jdbcType=DATE}, #{telpone,jdbcType=CHAR}, 
+      #{emailAddress,jdbcType=CHAR}, #{applyingPosition,jdbcType=CHAR}, #{educationBackground,jdbcType=CHAR}, 
+      #{experience,jdbcType=VARCHAR}, #{school,jdbcType=CHAR}, #{remark,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.ApplyingRecord" >
+    insert into applyingrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applyingId != null" >
+        applying_id,
+      </if>
+      <if test="applyingNo != null" >
+        applying_no,
+      </if>
+      <if test="applyingName != null" >
+        applying_name,
+      </if>
+      <if test="applyingSex != null" >
+        applying_sex,
+      </if>
+      <if test="bornDate != null" >
+        born_date,
+      </if>
+      <if test="telpone != null" >
+        telpone,
+      </if>
+      <if test="emailAddress != null" >
+        email_address,
+      </if>
+      <if test="applyingPosition != null" >
+        applying_position,
+      </if>
+      <if test="educationBackground != null" >
+        education_background,
+      </if>
+      <if test="experience != null" >
+        experience,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applyingId != null" >
+        #{applyingId,jdbcType=INTEGER},
+      </if>
+      <if test="applyingNo != null" >
+        #{applyingNo,jdbcType=CHAR},
+      </if>
+      <if test="applyingName != null" >
+        #{applyingName,jdbcType=CHAR},
+      </if>
+      <if test="applyingSex != null" >
+        #{applyingSex,jdbcType=CHAR},
+      </if>
+      <if test="bornDate != null" >
+        #{bornDate,jdbcType=DATE},
+      </if>
+      <if test="telpone != null" >
+        #{telpone,jdbcType=CHAR},
+      </if>
+      <if test="emailAddress != null" >
+        #{emailAddress,jdbcType=CHAR},
+      </if>
+      <if test="applyingPosition != null" >
+        #{applyingPosition,jdbcType=CHAR},
+      </if>
+      <if test="educationBackground != null" >
+        #{educationBackground,jdbcType=CHAR},
+      </if>
+      <if test="experience != null" >
+        #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.ApplyingRecord" >
+    update applyingrecord
+    <set >
+      <if test="applyingNo != null" >
+        applying_no = #{applyingNo,jdbcType=CHAR},
+      </if>
+      <if test="applyingName != null" >
+        applying_name = #{applyingName,jdbcType=CHAR},
+      </if>
+      <if test="applyingSex != null" >
+        applying_sex = #{applyingSex,jdbcType=CHAR},
+      </if>
+      <if test="bornDate != null" >
+        born_date = #{bornDate,jdbcType=DATE},
+      </if>
+      <if test="telpone != null" >
+        telpone = #{telpone,jdbcType=CHAR},
+      </if>
+      <if test="emailAddress != null" >
+        email_address = #{emailAddress,jdbcType=CHAR},
+      </if>
+      <if test="applyingPosition != null" >
+        applying_position = #{applyingPosition,jdbcType=CHAR},
+      </if>
+      <if test="educationBackground != null" >
+        education_background = #{educationBackground,jdbcType=CHAR},
+      </if>
+      <if test="experience != null" >
+        experience = #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=CHAR},
+      </if>
+    </set>
+    where applying_id = #{applyingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.ApplyingRecord" >
+    update applyingrecord
+    set applying_no = #{applyingNo,jdbcType=CHAR},
+      applying_name = #{applyingName,jdbcType=CHAR},
+      applying_sex = #{applyingSex,jdbcType=CHAR},
+      born_date = #{bornDate,jdbcType=DATE},
+      telpone = #{telpone,jdbcType=CHAR},
+      email_address = #{emailAddress,jdbcType=CHAR},
+      applying_position = #{applyingPosition,jdbcType=CHAR},
+      education_background = #{educationBackground,jdbcType=CHAR},
+      experience = #{experience,jdbcType=VARCHAR},
+      school = #{school,jdbcType=CHAR},
+      remark = #{remark,jdbcType=CHAR}
+    where applying_id = #{applyingId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		    http://www.springframework.org/schema/beans/spring-beans.xsd
+		    http://www.springframework.org/schema/mvc
+			http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		    http://www.springframework.org/schema/context
+		    http://www.springframework.org/schema/context/spring-context.xsd">
+	   	 <!-- 开启Spring MVC注解模式
+		        简化配置: 
+		  (1)自动注册DefaultAnnotationHandlerMapping对象到spring 容器,
+		  (2)自动注册AnnotationMethodHandlerAdapter对象到spring 容器, 
+		  (3)提供多种读写支持
+		      <1>数据绑定 
+			  <2>数字和日期的转换：@NumberFormat,@DateTimeFormat 
+			  <3>支持xml,json.(比如ajax返回json格式就要使用到) -->
+			<mvc:annotation-driven />
+			<!--servlet-mapping
+			        配置静态资源默认servlet配置
+			 1:加入对静态资源的处理: js, gif, png 
+			 2:充许使用"/"做整体映射,否则web.xml中DispatcherServlet的<url-pattern></url-pattern>只
+			 能配置成*.do或*.action等-->
+			<mvc:default-servlet-handler />
+			<!--  配置视图转换-->
+			<!-- 改1 -->
+			<bean
+				class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+				<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+				<property name="prefix" value="/WEB-INF/jsp/" />
+				<property name="suffix" value=".jsp" />
+			</bean>
+			
+			<!-- 扫描web相关的bean -->
+			<!-- 改2 -->
+			<context:component-scan base-package="com.hqyj.personel.controller" />
+</beans>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.PersonelTransferManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.PersonelTransferManager" >
+    <id column="transfer_id" property="transferId" jdbcType="INTEGER" />
+    <result column="transfer_no" property="transferNo" jdbcType="CHAR" />
+    <result column="employee_no" property="employeeNo" jdbcType="CHAR" />
+    <result column="old_position" property="oldPosition" jdbcType="CHAR" />
+    <result column="new_position" property="newPosition" jdbcType="CHAR" />
+    <result column="transfer_date" property="transferDate" jdbcType="DATE" />
+    <result column="transfer_reson" property="transferReson" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    transfer_id, transfer_no, employee_no, old_position, new_position, transfer_date, 
+    transfer_reson
+  </sql>
+  <select id="selectCountByKey" resultType="java.lang.Integer">
+   select
+  count(transfer_id)
+  from personeltransfermanager
+  where transfer_id like binary #{myKey} or
+  transfer_no like binary #{myKey} or
+  old_position like binary #{myKey} or
+  new_position like binary #{myKey} or
+  transfer_date like binary #{myKey} or
+  transfer_reson like binary #{myKey}
+  </select>
+  <select id="selectTransferRecordByKey" resultMap="BaseResultMap">
+  select  
+  <include refid="Base_Column_List" />
+  from personeltransfermanager
+  where transfer_id like binary #{myKey} or
+  transfer_no like binary #{myKey} or
+  old_position like binary #{myKey} or
+  new_position like binary #{myKey} or
+  transfer_date like binary #{myKey} or
+  transfer_reson like binary #{myKey}
+  limit #{start},#{rows}
+  </select>
+   <!-- /*1. 查询记录数*/ -->
+  <select id="selectCount" resultType="java.lang.Integer">
+  select count(transfer_id) from 
+  personeltransfermanager
+  </select>
+  
+  <!--  /*2. sql分页查询记录*/ -->
+  <select id="selectTransferRecord" resultMap="BaseResultMap">
+  select 
+  <include refid="Base_Column_List" />
+  from personeltransfermanager
+  limit #{start},#{rows}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from personeltransfermanager
+    where transfer_id = #{transferId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from personeltransfermanager
+    where transfer_id = #{transferId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.PersonelTransferManager" >
+    insert into personeltransfermanager (transfer_id, transfer_no, employee_no, 
+      old_position, new_position, transfer_date, 
+      transfer_reson)
+    values (#{transferId,jdbcType=INTEGER}, #{transferNo,jdbcType=CHAR}, #{employeeNo,jdbcType=CHAR}, 
+      #{oldPosition,jdbcType=CHAR}, #{newPosition,jdbcType=CHAR}, #{transferDate,jdbcType=DATE}, 
+      #{transferReson,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.PersonelTransferManager" >
+    insert into personeltransfermanager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="transferId != null" >
+        transfer_id,
+      </if>
+      <if test="transferNo != null" >
+        transfer_no,
+      </if>
+      <if test="employeeNo != null" >
+        employee_no,
+      </if>
+      <if test="oldPosition != null" >
+        old_position,
+      </if>
+      <if test="newPosition != null" >
+        new_position,
+      </if>
+      <if test="transferDate != null" >
+        transfer_date,
+      </if>
+      <if test="transferReson != null" >
+        transfer_reson,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="transferId != null" >
+        #{transferId,jdbcType=INTEGER},
+      </if>
+      <if test="transferNo != null" >
+        #{transferNo,jdbcType=CHAR},
+      </if>
+      <if test="employeeNo != null" >
+        #{employeeNo,jdbcType=CHAR},
+      </if>
+      <if test="oldPosition != null" >
+        #{oldPosition,jdbcType=CHAR},
+      </if>
+      <if test="newPosition != null" >
+        #{newPosition,jdbcType=CHAR},
+      </if>
+      <if test="transferDate != null" >
+        #{transferDate,jdbcType=DATE},
+      </if>
+      <if test="transferReson != null" >
+        #{transferReson,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.PersonelTransferManager" >
+    update personeltransfermanager
+    <set >
+      <if test="transferNo != null" >
+        transfer_no = #{transferNo,jdbcType=CHAR},
+      </if>
+      <if test="employeeNo != null" >
+        employee_no = #{employeeNo,jdbcType=CHAR},
+      </if>
+      <if test="oldPosition != null" >
+        old_position = #{oldPosition,jdbcType=CHAR},
+      </if>
+      <if test="newPosition != null" >
+        new_position = #{newPosition,jdbcType=CHAR},
+      </if>
+      <if test="transferDate != null" >
+        transfer_date = #{transferDate,jdbcType=DATE},
+      </if>
+      <if test="transferReson != null" >
+        transfer_reson = #{transferReson,jdbcType=CHAR},
+      </if>
+    </set>
+    where transfer_id = #{transferId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.PersonelTransferManager" >
+    update personeltransfermanager
+    set transfer_no = #{transferNo,jdbcType=CHAR},
+      employee_no = #{employeeNo,jdbcType=CHAR},
+      old_position = #{oldPosition,jdbcType=CHAR},
+      new_position = #{newPosition,jdbcType=CHAR},
+      transfer_date = #{transferDate,jdbcType=DATE},
+      transfer_reson = #{transferReson,jdbcType=CHAR}
+    where transfer_id = #{transferId,jdbcType=INTEGER}
+  </update>
+</mapper>

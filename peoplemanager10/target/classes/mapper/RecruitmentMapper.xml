@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.RecruitmentMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.Recruitment" >
+    <id column="recruitment_id" property="recruitmentId" jdbcType="INTEGER" />
+    <result column="recruitment_no" property="recruitmentNo" jdbcType="CHAR" />
+    <result column="recruitment_name" property="recruitmentName" jdbcType="CHAR" />
+    <result column="recruitment_sex" property="recruitmentSex" jdbcType="CHAR" />
+    <result column="born_date" property="bornDate" jdbcType="DATE" />
+    <result column="telphone" property="telphone" jdbcType="CHAR" />
+    <result column="email_adress" property="emailAdress" jdbcType="CHAR" />
+    <result column="recruitment_statement" property="recruitmentStatement" jdbcType="CHAR" />
+    <result column="employee_no" property="employeeNo" jdbcType="CHAR" />
+    <result column="education_backgment" property="educationBackgment" jdbcType="CHAR" />
+    <result column="department" property="department" jdbcType="CHAR" />
+    <result column="position" property="position" jdbcType="CHAR" />
+    <result column="enter_date" property="enterDate" jdbcType="DATE" />
+    <result column="people_state" property="peopleState" jdbcType="CHAR" />
+    <result column="contract_years" property="contractYears" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    recruitment_id, recruitment_no, recruitment_name, recruitment_sex, born_date, telphone, 
+    email_adress, recruitment_statement, employee_no, education_backgment, department, 
+    position, enter_date, people_state, contract_years
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recruitment
+    where recruitment_id = #{recruitmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recruitment
+    where recruitment_id = #{recruitmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.Recruitment" >
+    insert into recruitment (recruitment_id, recruitment_no, recruitment_name, 
+      recruitment_sex, born_date, telphone, 
+      email_adress, recruitment_statement, employee_no, 
+      education_backgment, department, position, 
+      enter_date, people_state, contract_years
+      )
+    values (#{recruitmentId,jdbcType=INTEGER}, #{recruitmentNo,jdbcType=CHAR}, #{recruitmentName,jdbcType=CHAR}, 
+      #{recruitmentSex,jdbcType=CHAR}, #{bornDate,jdbcType=DATE}, #{telphone,jdbcType=CHAR}, 
+      #{emailAdress,jdbcType=CHAR}, #{recruitmentStatement,jdbcType=CHAR}, #{employeeNo,jdbcType=CHAR}, 
+      #{educationBackgment,jdbcType=CHAR}, #{department,jdbcType=CHAR}, #{position,jdbcType=CHAR}, 
+      #{enterDate,jdbcType=DATE}, #{peopleState,jdbcType=CHAR}, #{contractYears,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.Recruitment" >
+    insert into recruitment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recruitmentId != null" >
+        recruitment_id,
+      </if>
+      <if test="recruitmentNo != null" >
+        recruitment_no,
+      </if>
+      <if test="recruitmentName != null" >
+        recruitment_name,
+      </if>
+      <if test="recruitmentSex != null" >
+        recruitment_sex,
+      </if>
+      <if test="bornDate != null" >
+        born_date,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="emailAdress != null" >
+        email_adress,
+      </if>
+      <if test="recruitmentStatement != null" >
+        recruitment_statement,
+      </if>
+      <if test="employeeNo != null" >
+        employee_no,
+      </if>
+      <if test="educationBackgment != null" >
+        education_backgment,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="enterDate != null" >
+        enter_date,
+      </if>
+      <if test="peopleState != null" >
+        people_state,
+      </if>
+      <if test="contractYears != null" >
+        contract_years,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recruitmentId != null" >
+        #{recruitmentId,jdbcType=INTEGER},
+      </if>
+      <if test="recruitmentNo != null" >
+        #{recruitmentNo,jdbcType=CHAR},
+      </if>
+      <if test="recruitmentName != null" >
+        #{recruitmentName,jdbcType=CHAR},
+      </if>
+      <if test="recruitmentSex != null" >
+        #{recruitmentSex,jdbcType=CHAR},
+      </if>
+      <if test="bornDate != null" >
+        #{bornDate,jdbcType=DATE},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=CHAR},
+      </if>
+      <if test="emailAdress != null" >
+        #{emailAdress,jdbcType=CHAR},
+      </if>
+      <if test="recruitmentStatement != null" >
+        #{recruitmentStatement,jdbcType=CHAR},
+      </if>
+      <if test="employeeNo != null" >
+        #{employeeNo,jdbcType=CHAR},
+      </if>
+      <if test="educationBackgment != null" >
+        #{educationBackgment,jdbcType=CHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=CHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=CHAR},
+      </if>
+      <if test="enterDate != null" >
+        #{enterDate,jdbcType=DATE},
+      </if>
+      <if test="peopleState != null" >
+        #{peopleState,jdbcType=CHAR},
+      </if>
+      <if test="contractYears != null" >
+        #{contractYears,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.Recruitment" >
+    update recruitment
+    <set >
+      <if test="recruitmentNo != null" >
+        recruitment_no = #{recruitmentNo,jdbcType=CHAR},
+      </if>
+      <if test="recruitmentName != null" >
+        recruitment_name = #{recruitmentName,jdbcType=CHAR},
+      </if>
+      <if test="recruitmentSex != null" >
+        recruitment_sex = #{recruitmentSex,jdbcType=CHAR},
+      </if>
+      <if test="bornDate != null" >
+        born_date = #{bornDate,jdbcType=DATE},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=CHAR},
+      </if>
+      <if test="emailAdress != null" >
+        email_adress = #{emailAdress,jdbcType=CHAR},
+      </if>
+      <if test="recruitmentStatement != null" >
+        recruitment_statement = #{recruitmentStatement,jdbcType=CHAR},
+      </if>
+      <if test="employeeNo != null" >
+        employee_no = #{employeeNo,jdbcType=CHAR},
+      </if>
+      <if test="educationBackgment != null" >
+        education_backgment = #{educationBackgment,jdbcType=CHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=CHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=CHAR},
+      </if>
+      <if test="enterDate != null" >
+        enter_date = #{enterDate,jdbcType=DATE},
+      </if>
+      <if test="peopleState != null" >
+        people_state = #{peopleState,jdbcType=CHAR},
+      </if>
+      <if test="contractYears != null" >
+        contract_years = #{contractYears,jdbcType=INTEGER},
+      </if>
+    </set>
+    where recruitment_id = #{recruitmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.Recruitment" >
+    update recruitment
+    set recruitment_no = #{recruitmentNo,jdbcType=CHAR},
+      recruitment_name = #{recruitmentName,jdbcType=CHAR},
+      recruitment_sex = #{recruitmentSex,jdbcType=CHAR},
+      born_date = #{bornDate,jdbcType=DATE},
+      telphone = #{telphone,jdbcType=CHAR},
+      email_adress = #{emailAdress,jdbcType=CHAR},
+      recruitment_statement = #{recruitmentStatement,jdbcType=CHAR},
+      employee_no = #{employeeNo,jdbcType=CHAR},
+      education_backgment = #{educationBackgment,jdbcType=CHAR},
+      department = #{department,jdbcType=CHAR},
+      position = #{position,jdbcType=CHAR},
+      enter_date = #{enterDate,jdbcType=DATE},
+      people_state = #{peopleState,jdbcType=CHAR},
+      contract_years = #{contractYears,jdbcType=INTEGER}
+    where recruitment_id = #{recruitmentId,jdbcType=INTEGER}
+  </update>
+</mapper>

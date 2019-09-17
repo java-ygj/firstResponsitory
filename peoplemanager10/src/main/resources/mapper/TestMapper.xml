@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.TestMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.TestPo" >
+    <id column="sys_id" property="sysId" jdbcType="INTEGER" />
+    <result column="sys_name" property="sysName" jdbcType="VARCHAR" />
+    <result column="sys_pwd" property="sysPwd" jdbcType="VARCHAR" />
+     <result column="r_name" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    sys_id, sys_name, sys_pwd
+  </sql>
+ 
+
+
+
+  <!--根据用户名查询用户对象  -->
+  <select id="getAdminByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from admin 
+	where sys_name = #{userName,jdbcType=VARCHAR} 
+</select>
+<!-- 根据用户名查询出该用户拥有的角色 -->
+	<select id="searchRole" resultType="java.lang.String" parameterType="java.lang.String">
+	
+select r.r_name from admin a,role r,admin_role_rel ar 
+
+where a.sys_id= ar.a_id and r.r_id=ar.r_id and a.sys_name=#{userName,jdbcType=VARCHAR}  
+	</select>
+	
+	<!-- 根据用户名查询出该用户拥有的权限-->
+	<select id="searchPower" resultType="java.lang.String" parameterType="java.lang.String">
+	
+ select DISTINCT(p.p_name) from admin a,role r,power p,admin_role_rel ar,power_role_rel pr 
+
+ where a.sys_id= ar.a_id and r.r_id=ar.r_id and p.p_id=pr.p_id and r.r_id=pr.r_id and a.sys_name=#{userName,jdbcType=VARCHAR}   
+	</select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.ClockingRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.ClockingRecord" >
+    <id column="clocking_id" property="clockingId" jdbcType="INTEGER" />
+    <result column="clocking_date" property="clockingDate" jdbcType="DATE" />
+    <result column="employee_no" property="employeeNo" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="reard_and_punish" property="reardAndPunish" jdbcType="INTEGER" />
+    <result column="clocker" property="clocker" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    clocking_id, clocking_date, employee_no, type, reard_and_punish, clocker
+  </sql>
+  
+  <!-- sql查询分页 -->
+  <select id="selectByPage" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" /> FROM clockingrecord limit #{start},#{rows}
+  </select>
+  <!-- 查询总条数 -->
+  <select id="countAll" resultType="Integer">
+  	SELECT count(clocking_id) FROM clockingrecord
+  </select>
+  <!-- 添加考勤 -->
+  <insert id="addClocking">
+  	INSERT INTO clockingrecord(clocking_date,employee_no,type,reard_and_punish,clocker)
+  		VALUES(#{clockingDate}, #{employeeNo}, #{type}, #{reardAndPunish}, #{clocker})
+  </insert>
+  
+  <!-- 模糊查询(根据员工编号) -->
+  <select id="selectByLike" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" /> FROM clockingrecord where 1=1
+  	<if test="employeeNo != null and employeeNo !=''">
+  	 and employee_no LIKE #{employeeNo} 
+  	 </if>
+  	 <!-- <if test="clockingDate != null and clockingDate !=''">
+  	 or clocking_date = #{clockingDate}
+  	 </if> -->
+  	 LIMIT #{start},#{rows}
+  </select>
+  <!-- 模糊查询的总条数 -->
+  <select id="countByLike" resultType="Integer">
+  	SELECT count(clocking_id) FROM clockingrecord where 1=1
+  	<if test="employeeNo != null and employeeNo !=''">
+  	 and employee_no LIKE #{employeeNo} 
+  	 </if>
+  	 <!-- <if test="clockingDate != null and clockingDate !=''">
+  	 or clocking_date = #{clockingDate}
+  	 </if> -->
+  </select>
+  
+  <!-- 模糊查询(根据时间) -->
+  <select id="selectByDate" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" /> FROM clockingrecord where 1=1
+  	<if test="clockingDate != null and clockingDate !=''">
+  	 and clocking_date = #{clockingDate}
+  	 </if>
+  	 LIMIT #{start},#{rows}
+  </select>
+  <!-- 模糊查询的总条数 -->
+  <select id="countByDate" resultType="Integer">
+  	SELECT count(clocking_id) FROM clockingrecord where 1=1
+  	 <if test="clockingDate != null and clockingDate !=''">
+  	 or clocking_date = #{clockingDate}
+  	 </if>
+  </select>
+  
+  <update id="updateClocking">
+  	UPDATE clockingrecord set 
+  	clocking_date=#{clockingDate}, employee_no=#{employeeNo}, type=#{type}, reard_and_punish=#{reardAndPunish}, clocker=#{clocker}
+  	where clocking_id=#{clockingId}
+  </update>
+  
+</mapper>

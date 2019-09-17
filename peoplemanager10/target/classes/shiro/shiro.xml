@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+	<!--密码匹配器 -->
+	<bean
+		class="org.apache.shiro.authc.credential.HashedCredentialsMatcher"
+		id="passwordMatcher">
+
+		<property value="md5" name="hashAlgorithmName" />
+
+		<property value="1024" name="hashIterations" />
+
+	</bean>
+	<!-- 配置进行授权和认证的 Realm，要新增一个java类来实现，下面会有，class=包名.类名 -->
+	<!-- 已改1-已改 -->
+	<bean class="com.hqyj.personel.shiro.MyRealm" id="myRealm">
+		<!-- 注入密码匹配器 -->
+		<property name="credentialsMatcher" ref="passwordMatcher" />
+	</bean>
+	<!-- 配置 Shiro 的 SecurityManager Bean. -->
+	<bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
+		id="securityManager">
+		<property name="realm" ref="myRealm" />
+	</bean>
+	<!-- 配置 Bean 后置处理器: 会自动的调用和 Spring 整合后各个组件的生命周期方法. -->
+	<bean class="org.apache.shiro.spring.LifecycleBeanPostProcessor"
+		id="lifecycleBeanPostProcessor" />
+
+	<!-- 配置 ShiroFilter bean: 该 bean 的 id 必须和 web.xml 文件中配置的 shiro filter 的 
+		name 一致 -->
+	<bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
+		id="shiroFilter">
+		<!-- 装配 securityManager -->
+		<property name="securityManager" ref="securityManager" />
+
+
+
+		<!-- 配置登陆页面 -->
+		<!-- 改2 已改 -->
+		<property value="/loginPage.do" name="loginUrl" />
+
+
+
+		<!-- 用户访问未对其授权的资源时,所显示的连接 -->
+		<!-- 改3 -->
+		<property value="noPower.do" name="unauthorizedUrl" />
+
+
+
+		<!-- 具体配置需要拦截哪些 URL, 以及访问对应的 URL 时使用 Shiro 的什么 Filter 进行拦截. -->
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- 改4 -->
+				<!-- /stu.do=perms[stu:add] --><!-- 有stu:manager才能访问stu.do页面 -->
+				<!-- /payment.do=perms[All:manager] -->
+				<!-- /user.do=perms[All:manager] -->
+				<!-- /logout.do=logout -->
+				/user.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,HRGeneralist,Admin:BasicInfo]
+				/roleFP.do=MyFilerterPerms[SuperAdministrator,HRAdminManger]
+				/powerPage.do=MyFilerterPerms[SuperAdministrator,HRAdminManger]
+				/departmentPage.do=MyFilerterPerms[SuperAdministrator,HRAdminManger]
+				/recruit.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,HRGeneralist,HumanAffairs:Recruitment]
+				/transfer.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,HRGeneralist,HumanAffairs:Transfer]
+				/education.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,HRGeneralist,HumanAffairs:Education]
+				/toClockingPage.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,HRGeneralist,HumanAffairs:Clocking]
+				/toPaymentPage.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,HRGeneralist,HumanAffairs:Payment]
+				/contract.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,ClericalStaff,Admin:Contract,File]
+				/satffRecord.do=MyFilerterPerms[SuperAdministrator,HRAdminManger,ClericalStaff]
+			</value>
+		</property>
+		<!-- 自定义过滤器的配置 -->
+		<property name="filters">
+			<map>
+				<entry key="MyFilerterPerms" value-ref="MyFilerterPerms" />
+
+			</map>
+
+		</property>
+
+	</bean>
+	<bean id="MyFilerterPerms"
+		class="com.hqyj.personel.shiro.MyFilerter" />
+
+
+
+</beans>

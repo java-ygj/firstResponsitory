@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.AssessSubjectMapper" >
+  <resultMap id="BaseResultMap" type="com.hqyj.personel.po.AssessSubject" >
+    <id column="subject_id" property="subjectId" jdbcType="INTEGER" />
+    <result column="subject_name" property="subjectName" jdbcType="CHAR" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="subject_type" property="subjectType" jdbcType="INTEGER" />
+    <result column="A" property="a" jdbcType="CHAR" />
+    <result column="B" property="b" jdbcType="CHAR" />
+    <result column="C" property="c" jdbcType="CHAR" />
+    <result column="D" property="d" jdbcType="CHAR" />
+    <result column="answer" property="answer" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    subject_id, subject_name, project_id, subject_type, A, B, C, D, answer
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from assesssubject
+    where subject_id = #{subjectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from assesssubject
+    where subject_id = #{subjectId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hqyj.personel.po.AssessSubject" >
+    insert into assesssubject (subject_id, subject_name, project_id, 
+      subject_type, A, B, C, 
+      D, answer)
+    values (#{subjectId,jdbcType=INTEGER}, #{subjectName,jdbcType=CHAR}, #{projectId,jdbcType=INTEGER}, 
+      #{subjectType,jdbcType=INTEGER}, #{a,jdbcType=CHAR}, #{b,jdbcType=CHAR}, #{c,jdbcType=CHAR}, 
+      #{d,jdbcType=CHAR}, #{answer,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hqyj.personel.po.AssessSubject" >
+    insert into assesssubject
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="subjectId != null" >
+        subject_id,
+      </if>
+      <if test="subjectName != null" >
+        subject_name,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="subjectType != null" >
+        subject_type,
+      </if>
+      <if test="a != null" >
+        A,
+      </if>
+      <if test="b != null" >
+        B,
+      </if>
+      <if test="c != null" >
+        C,
+      </if>
+      <if test="d != null" >
+        D,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="subjectId != null" >
+        #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="subjectName != null" >
+        #{subjectName,jdbcType=CHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="subjectType != null" >
+        #{subjectType,jdbcType=INTEGER},
+      </if>
+      <if test="a != null" >
+        #{a,jdbcType=CHAR},
+      </if>
+      <if test="b != null" >
+        #{b,jdbcType=CHAR},
+      </if>
+      <if test="c != null" >
+        #{c,jdbcType=CHAR},
+      </if>
+      <if test="d != null" >
+        #{d,jdbcType=CHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hqyj.personel.po.AssessSubject" >
+    update assesssubject
+    <set >
+      <if test="subjectName != null" >
+        subject_name = #{subjectName,jdbcType=CHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="subjectType != null" >
+        subject_type = #{subjectType,jdbcType=INTEGER},
+      </if>
+      <if test="a != null" >
+        A = #{a,jdbcType=CHAR},
+      </if>
+      <if test="b != null" >
+        B = #{b,jdbcType=CHAR},
+      </if>
+      <if test="c != null" >
+        C = #{c,jdbcType=CHAR},
+      </if>
+      <if test="d != null" >
+        D = #{d,jdbcType=CHAR},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=CHAR},
+      </if>
+    </set>
+    where subject_id = #{subjectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hqyj.personel.po.AssessSubject" >
+    update assesssubject
+    set subject_name = #{subjectName,jdbcType=CHAR},
+      project_id = #{projectId,jdbcType=INTEGER},
+      subject_type = #{subjectType,jdbcType=INTEGER},
+      A = #{a,jdbcType=CHAR},
+      B = #{b,jdbcType=CHAR},
+      C = #{c,jdbcType=CHAR},
+      D = #{d,jdbcType=CHAR},
+      answer = #{answer,jdbcType=CHAR}
+    where subject_id = #{subjectId,jdbcType=INTEGER}
+  </update>
+</mapper>

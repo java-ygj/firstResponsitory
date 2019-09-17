@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.SatffRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hqyj.personel.po.SatffRecord">
+		<id column="record_id" property="recordId" jdbcType="INTEGER" />
+		<result column="record_no" property="recordNo" jdbcType="CHAR" />
+		<result column="empolyee_no" property="empolyeeNo"
+			jdbcType="CHAR" />
+		<result column="record_name" property="recordName"
+			jdbcType="CHAR" />
+		<result column="remark" property="remark" jdbcType="CHAR" />
+		<result column="department_id" property="departmentId"
+			jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs"
+		type="com.hqyj.personel.po.SatffRecord" extends="BaseResultMap">
+		<result column="content_digest" property="contentDigest"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		record_id, record_no, empolyee_no, record_name
+	</sql>
+	<sql id="Blob_Column_List">
+		content_digest
+	</sql>
+	<!-- 1 通过satffRecord查询satffRecord记录 -->
+	<select id="selectRecordBySql" resultMap="ResultMapWithBLOBs">
+		SELECT record_id, record_no, empolyee_no, record_name, remark,
+		department_id,content_digest,NAME FROM satffrecord 
+		limit #{start},#{rows}
+	</select>
+	<!-- 6 查询satffrecord记录数目 -->
+	<select id="selectCount" resultType="Integer">
+		select count(record_id) from satffrecord
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from satffrecord
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from satffrecord
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.hqyj.personel.po.SatffRecord">
+		insert into satffrecord (record_id, record_no, empolyee_no,
+		record_name, remark, department_id,
+		content_digest,name)
+		values (null, #{recordNo,jdbcType=CHAR}, #{empolyeeNo,jdbcType=CHAR},
+		#{recordName,jdbcType=CHAR}, #{remark,jdbcType=CHAR},
+		#{departmentId,jdbcType=INTEGER},
+		#{contentDigest,jdbcType=LONGVARCHAR}
+		, #{name,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.hqyj.personel.po.SatffRecord">
+		insert into satffrecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="recordId != null">
+				record_id,
+			</if>
+			<if test="recordNo != null">
+				record_no,
+			</if>
+			<if test="empolyeeNo != null">
+				empolyee_no,
+			</if>
+			<if test="recordName != null">
+				record_name,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="departmentId != null">
+				department_id,
+			</if>
+			<if test="contentDigest != null">
+				content_digest,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="recordId != null">
+				#{recordId,jdbcType=INTEGER},
+			</if>
+			<if test="recordNo != null">
+				#{recordNo,jdbcType=CHAR},
+			</if>
+			<if test="empolyeeNo != null">
+				#{empolyeeNo,jdbcType=CHAR},
+			</if>
+			<if test="recordName != null">
+				#{recordName,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=CHAR},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=INTEGER},
+			</if>
+			<if test="contentDigest != null">
+				#{contentDigest,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.hqyj.personel.po.SatffRecord">
+		update satffrecord
+		<set>
+			<if test="recordNo != null">
+				record_no = #{recordNo,jdbcType=CHAR},
+			</if>
+			<if test="empolyeeNo != null">
+				empolyee_no = #{empolyeeNo,jdbcType=CHAR},
+			</if>
+			<if test="recordName != null">
+				record_name = #{recordName,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=CHAR},
+			</if>
+			<if test="departmentId != null">
+				department_id = #{departmentId,jdbcType=INTEGER},
+			</if>
+			<if test="contentDigest != null">
+				content_digest = #{contentDigest,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=CHAR},
+			</if>
+		</set>
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.hqyj.personel.po.SatffRecord">
+		update satffrecord
+		set record_no = #{recordNo,jdbcType=CHAR},
+		empolyee_no = #{empolyeeNo,jdbcType=CHAR},
+		record_name = #{recordName,jdbcType=CHAR},
+		remark = #{remark,jdbcType=CHAR},
+		department_id = #{departmentId,jdbcType=INTEGER},
+		content_digest = #{contentDigest,jdbcType=LONGVARCHAR}
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.hqyj.personel.po.SatffRecord">
+		update satffrecord
+		set record_no = #{recordNo,jdbcType=CHAR},
+		empolyee_no = #{empolyeeNo,jdbcType=CHAR},
+		record_name = #{recordName,jdbcType=CHAR},
+		remark = #{remark,jdbcType=CHAR},
+		department_id = #{departmentId,jdbcType=INTEGER}
+		where record_id = #{recordId,jdbcType=INTEGER}
+	</update>
+</mapper>

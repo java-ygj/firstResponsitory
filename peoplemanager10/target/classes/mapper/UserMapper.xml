@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqyj.personel.mapper.UserMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hqyj.personel.po.User">
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="employee_no" property="employeeNo"
+			jdbcType="CHAR" />
+		<result column="password" property="password" jdbcType="CHAR" />
+		<result column="name" property="name" jdbcType="CHAR" />
+		<result column="sex" property="sex" jdbcType="CHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="telephone" property="telephone" jdbcType="CHAR" />
+		<result column="email_address" property="emailAddress"
+			jdbcType="CHAR" />
+		<result column="edu_bg" property="eduBg" jdbcType="CHAR" />
+		<result column="department_id" property="departmentId"
+			jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="CHAR" />
+		<result column="entry_time" property="entryTime"
+			jdbcType="DATE" />
+		<result column="emploryee_status" property="emploryeeStatus"
+			jdbcType="CHAR" />
+		<result column="remark" property="remark" jdbcType="CHAR" />
+		<result column="person_id" property="personId" jdbcType="CHAR" />
+		<result column="delete_status" property="deleteStatus"
+			jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, employee_no, password, name, sex, birthday,
+		telephone, email_address,
+		edu_bg,
+		department_id, address, entry_time,
+		emploryee_status, remark, person_id,delete_status
+	</sql>
+	<!-- /*20. 模糊查询user信息*/ -->
+	<select id="selectUserByKey" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from user
+	<where>
+			<if test="userId != null">
+				or user_id like #{userId}
+			</if>
+			<if test="employeeNo != null">
+				or employee_no like #{employeeNo}
+			</if>
+			<if test="password != null">
+				or password like #{password}
+			</if>
+			<if test="name != null">
+				or name like #{name}
+			</if>
+			<if test="sex != null">
+				or sex like #{sex}
+			</if>
+			<if test="birthday != null">
+				or birthday like #{birthday}
+			</if>
+			<if test="telephone != null">
+				or telephone like #{telephone}
+			</if>
+			<if test="emailAddress != null">
+				or email_address like #{emailAddress}
+			</if>
+			<if test="eduBg != null">
+				or edu_bg like #{eduBg}
+			</if>
+			<if test="departmentId != null">
+				or department_id like #{departmentId}
+			</if>
+			<if test="address != null">
+				or address like #{address}
+			</if>
+			<if test="entryTime != null">
+				or entry_time like #{entryTime}
+			</if>
+			<if test="emploryeeStatus != null">
+				or emploryee_status like #{emploryeeStatus}
+			</if>
+			<if test="remark != null">
+				or remark like #{remark}
+			</if>
+			<if test="personId != null">
+				or person_id like #{personId}
+			</if>
+			<if test="deleteStatus != null">
+				or delete_status like #{deleteStatus}
+			</if>
+			</where>
+			 LIMIT #{start},#{rows}
+	</select>
+	
+	<!-- /*21. 模糊查询计数*/ -->
+	<select id="selectCountByKey" resultType="java.lang.Integer">
+	select count(user_id) from user
+	<where>
+			<if test="userId != null">
+				or user_id like #{userId}
+			</if>
+			<if test="employeeNo != null">
+				or employee_no like #{employeeNo}
+			</if>
+			<if test="password != null">
+				or password like #{password}
+			</if>
+			<if test="name != null">
+				or name like #{name}
+			</if>
+			<if test="sex != null">
+				or sex like #{sex}
+			</if>
+			<if test="birthday != null">
+				or birthday like #{birthday}
+			</if>
+			<if test="telephone != null">
+				or telephone like #{telephone}
+			</if>
+			<if test="emailAddress != null">
+				or email_address like #{emailAddress}
+			</if>
+			<if test="eduBg != null">
+				or edu_bg like #{eduBg}
+			</if>
+			<if test="departmentId != null">
+				or department_id like #{departmentId}
+			</if>
+			<if test="address != null">
+				or address like #{address}
+			</if>
+			<if test="entryTime != null">
+				or entry_time like #{entryTime}
+			</if>
+			<if test="emploryeeStatus != null">
+				or emploryee_status like #{emploryeeStatus}
+			</if>
+			<if test="remark != null">
+				or remark like #{remark}
+			</if>
+			<if test="personId != null">
+				or person_id like #{personId}
+			</if>
+			<if test="deleteStatus != null">
+				or delete_status like #{deleteStatus}
+			</if>
+			</where>
+	</select>
+	
+	<!-- 
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id, 
+			<if test="deleteStatus != null">
+				delete_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="deleteStatus != null">
+				#{deleteStatus,jdbcType=CHAR},
+			</if>
+		</trim>
+				-->
+	<!-- 18. 动态sql查询user，根据这些，bengintime，endtime，department,start,rows, -->
+	<!-- start\rows\beginTime\endTime\deptMsg -->
+	<select id="selectUserByBeginTimeAndEndTimeAndDept" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from user  
+	<where>
+		<if test="deptMsg!=null and deptMsg!=''">
+        	and department_id=
+        	(SELECT department_id FROM department WHERE department_des=#{deptMsg})
+      	</if>
+	 	<if test="beginTime!=null">
+        	and entry_time &gt;= #{beginTime}
+      	</if>
+      	<if test="endTime!=null">
+        	and entry_time &lt;= #{endTime}
+    	</if>
+	 </where>
+	 LIMIT #{start},#{rows}
+	</select>
+	
+	<!-- beginTime\endTime\deptMsg -->
+	<!-- 19. 动态sql查询数目，根据有无bengintime，endtime，department -->
+	<select id="selectCountByBeginTimeAndEndTimeAndDept" resultType="java.lang.Integer">
+	select count(user_id) from user
+	<where>
+		<if test="deptMsg!=null and deptMsg!=''">
+        	and department_id=
+        	(SELECT department_id FROM department WHERE department_des=#{deptMsg})
+      	</if>
+	 	<if test="beginTime!=null">
+        	and entry_time &gt;= #{beginTime}
+      	</if>
+      	<if test="endTime!=null">
+        	and entry_time &lt;= #{endTime}
+    	</if>
+	 </where>
+	</select>
+	
+	<!-- /*17 ,分部门查询有多少用户*/ -->
+	<select id="selectCountByDept" resultType="java.lang.Integer">
+	select count(user_id) from user WHERE department_id = 
+	(SELECT department_id FROM department WHERE department_des=#{department})
+	</select>
+	<!-- /*16. 分部门查询用户信息*/ -->
+	<select id="searchUserByDept" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user WHERE department_id = 
+		(SELECT department_id FROM department WHERE department_des=#{department})
+		limit #{start},#{rows}
+	</select>
+	<!-- 15。 修改密码 -->
+	<update id="updatePwdByOldPwdAndNo">
+	update user set password = #{newPwd} where employee_no = #{employeeNo}
+	</update>
+	
+	
+	
+	<!-- /*14. 修改密码，验证账户的正确性*/ -->
+	<select id="selectUserByNoAndPwd" resultMap="BaseResultMap">
+		select user_id,employee_no,name,password,department_id from user where employee_no=#{employeeNo} and password=#{oldPassword}
+	</select>
+	
+	
+	<!-- 	/*12. 注册其实是修改*/ -->
+	<update id="regeisteUser">
+	update user set password=#{password},remark=#{remark},delete_status =#{deleteStatus} where employee_no = #{employeeNo}
+	</update>
+	<!-- /*13. 删除上一次未注册信息*/ -->
+	<delete id="deleteLastRegeisteUser">
+	delete from user where employee_no=#{regeisteEmployeeNo}
+	</delete>
+	
+	
+	
+	
+	
+	<!-- /*11.通过注册信息查询注册码是否正确*/ -->
+	<select id="selectUserByRegeisteMsg" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user where employee_no=#{employeeNo} and password=#{password} and
+		email_address=#{emailAddress} and check_id=#{checkId}
+	</select>
+
+	<!-- String employeeNo, String password, String emailAddress, String checkId -->
+	<!-- /*10.通过userName和uuid查询这个人，userName就是employeeNo*/ -->
+	<select id="selectByEmployeeAndUuid" resultMap="BaseResultMap">
+		select
+		user_id,employee_no,name from user where employee_no=#{employeeNo}
+		and
+		uuid = #{uuid}
+	</select>
+
+	<!-- /*9. 添加uuid进入数据库*/ -->
+	<update id="updateUuidByUsername">
+		update user set uuid=#{uuid} where employee_no =
+		#{employeeNo}
+	</update>
+
+
+	<!-- 8 假删除ByDepartmentId -->
+	<update id="falseDeleteByDepartmentId">
+		update user set delete_status = #{deleteStatus} where
+		department_id =
+		#{delId}
+	</update>
+	<!-- 7 假删除ByUser -->
+	<update id="falseDeleteByUser">
+		update user set delete_status = #{deleteStatus} where
+		user_id = #{userId}
+	</update>
+	<!-- 5 通过User查询User记录 -->
+	<select id="selectUserBySql" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user limit #{start},#{rows}
+	</select>
+
+
+
+	<!-- 6 查询User记录数目 -->
+	<select id="selectCount" resultType="Integer">
+		select count(user_id) from
+		user
+	</select>
+
+
+	<!-- 根据employeeNo查询user -->
+	<select id="getUserByemployeeNo" resultMap="BaseResultMap">
+		select
+		user_id,employee_no,password,delete_status,name,department_id from
+		user where employee_no =
+		#{employeeNo}
+	</select>
+
+	<!-- 根据employeeNo查询Position -->
+	<select id="searchPosition" resultType="java.lang.String">
+		SELECT p.`position_name`
+		FROM POSITION p,USER u ,userposition up WHERE
+		p.`position_id`=up.`position_id` AND up.`user_id`=u.`user_id`AND
+		u.`employee_no`=#{employeeNo}
+	</select>
+	<!-- 根据employeeNo查询Power查询权限 -->
+	<select id="searchPower" resultType="java.lang.String">
+		SELECT DISTINCT(pw.P_name)
+		FROM USER u,POSITION pt,POWER pw,userposition
+		up,positionpower pp WHERE
+		u.`user_id`=up.`user_id` AND
+		pt.`position_id`=up.`position_id` AND
+		pp.`position_id`=pt.`position_id` AND pp.`power_id`=pw.`p_id` AND
+		u.`employee_no`=#{employeeNo}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where user_id = #{userId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from user
+		where user_id =
+		#{userId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hqyj.personel.po.User">
+		insert into user (user_id,
+		employee_no, password,
+		name, sex, birthday, telephone,
+		email_address,
+		edu_bg, department_id,
+		address, entry_time, emploryee_status,
+		remark,
+		person_id,delete_status,check_id)
+		values (null,
+		#{employeeNo,jdbcType=CHAR},
+		#{password,jdbcType=CHAR},
+		#{name,jdbcType=CHAR}, #{sex,jdbcType=CHAR},
+		#{birthday,jdbcType=DATE},
+		#{telephone,jdbcType=CHAR},
+		#{emailAddress,jdbcType=CHAR}, #{eduBg,jdbcType=CHAR},
+		#{departmentId,jdbcType=INTEGER},
+		#{address,jdbcType=CHAR},
+		#{entryTime,jdbcType=DATE},
+		#{emploryeeStatus,jdbcType=CHAR},
+		#{remark,jdbcType=CHAR},
+		#{personId,jdbcType=CHAR},#{deleteStatus},#{checkId,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.hqyj.personel.po.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="employeeNo != null">
+				employee_no,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="birthday != null">
+				birthday,
+			</if>
+			<if test="telephone != null">
+				telephone,
+			</if>
+			<if test="emailAddress != null">
+				email_address,
+			</if>
+			<if test="eduBg != null">
+				edu_bg,
+			</if>
+			<if test="departmentId != null">
+				department_id,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="entryTime != null">
+				entry_time,
+			</if>
+			<if test="emploryeeStatus != null">
+				emploryee_status,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="personId != null">
+				person_id,
+			</if>
+			<if test="deleteStatus != null">
+				delete_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="employeeNo != null">
+				#{employeeNo,jdbcType=CHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=CHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=CHAR},
+			</if>
+			<if test="birthday != null">
+				#{birthday,jdbcType=DATE},
+			</if>
+			<if test="telephone != null">
+				#{telephone,jdbcType=CHAR},
+			</if>
+			<if test="emailAddress != null">
+				#{emailAddress,jdbcType=CHAR},
+			</if>
+			<if test="eduBg != null">
+				#{eduBg,jdbcType=CHAR},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=CHAR},
+			</if>
+			<if test="entryTime != null">
+				#{entryTime,jdbcType=DATE},
+			</if>
+			<if test="emploryeeStatus != null">
+				#{emploryeeStatus,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=CHAR},
+			</if>
+			<if test="personId != null">
+				#{personId,jdbcType=CHAR},
+			</if>
+			<if test="deleteStatus != null">
+				#{deleteStatus,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.hqyj.personel.po.User">
+		update user
+		<set>
+			<if test="employeeNo != null">
+				employee_no = #{employeeNo,jdbcType=CHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=CHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=CHAR},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday,jdbcType=DATE},
+			</if>
+			<if test="telephone != null">
+				telephone = #{telephone,jdbcType=CHAR},
+			</if>
+			<if test="emailAddress != null">
+				email_address = #{emailAddress,jdbcType=CHAR},
+			</if>
+			<if test="eduBg != null">
+				edu_bg = #{eduBg,jdbcType=CHAR},
+			</if>
+			<if test="departmentId != null">
+				department_id = #{departmentId,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=CHAR},
+			</if>
+			<if test="entryTime != null">
+				entry_time = #{entryTime,jdbcType=DATE},
+			</if>
+			<if test="emploryeeStatus != null">
+				emploryee_status = #{emploryeeStatus,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=CHAR},
+			</if>
+			<if test="personId != null">
+				person_id = #{personId,jdbcType=CHAR},
+			</if>
+			<if test="deleteStatus != null">
+				delete_status = #{deleteStatus,jdbcType=CHAR},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.hqyj.personel.po.User">
+		update user
+		set employee_no =
+		#{employeeNo,jdbcType=CHAR},
+		password = #{password,jdbcType=CHAR},
+		name
+		= #{name,jdbcType=CHAR},
+		sex = #{sex,jdbcType=CHAR},
+		birthday =
+		#{birthday,jdbcType=DATE},
+		telephone = #{telephone,jdbcType=CHAR},
+		email_address = #{emailAddress,jdbcType=CHAR},
+		edu_bg =
+		#{eduBg,jdbcType=CHAR},
+		department_id =
+		#{departmentId,jdbcType=INTEGER},
+		address = #{address,jdbcType=CHAR},
+		entry_time = #{entryTime,jdbcType=DATE},
+		emploryee_status =
+		#{emploryeeStatus,jdbcType=CHAR},
+		remark = #{remark,jdbcType=CHAR},
+		person_id = #{personId,jdbcType=CHAR},
+		delete_status =
+		#{deleteStatus,jdbcType=CHAR}
+		where user_id =
+		#{userId,jdbcType=INTEGER}
+	</update>
+</mapper>
