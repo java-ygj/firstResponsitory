@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.atguigu.springcloud</groupId>
+		<artifactId>microservicecloud</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>microservicecloud-consumer-hystrix-dashboard</artifactId>
+	<dependencies>
+		<!-- 引入自己定义的api通用包，可以使用Dept的Entity -->
+		<dependency>
+			<groupId>com.atguigu.springcloud</groupId>
+			<artifactId>my-microservicecloud-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency><!-- 需要指定版本，不知为什么1.5.9不需要指定<version>1.2.6.RELEASE</version> -->
+			<groupId>org.springframework</groupId>
+			<artifactId>springloaded</artifactId>
+			
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<!-- Ribbon开始：添加Ribbon，添加client，添加config -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<!-- -netflix -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-ribbon</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId><!-- 和eureka-client相关 -->
+		</dependency>
+		<!-- :Ribbon结束 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+		<!-- hystrix-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-hystrix</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId> spring-cloud-starter-hystrix-dashboard</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

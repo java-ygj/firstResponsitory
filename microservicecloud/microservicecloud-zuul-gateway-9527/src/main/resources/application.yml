@@ -1,0 +1,28 @@
+server: 
+ port: 9527
+ 
+spring: 
+ application:
+  name: microservicecloud-zuul-gateway        #对外暴露的服务名字
+
+eureka: 
+ instance:
+   instance-id: gateway-9527.com               #起别名字，这句话要写在client之前才能生效（cloud版本魏2.0.3以上时），设定注册的名字
+   prefer-ip-address: true 
+ client:                                      #客户端注册进eureka服务列表内
+  service-url: 
+   defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka  
+
+zuul:                                         #配置zuul路由网关的映射规则
+ prefix: /atguigu                               #添加前缀
+ ignored-services: microservicecloud-dept                          #忽视所有的服务，忽视具体的用ignored-services: microservicecloud-dept  
+ routes:                                        #映射
+  mydept.serviceId: microservicecloud-dept      #注意：mydept.serviceId:和mydept.path:的mydept必须相同，
+  mydept.path: /mydept/**                       #规则：用mydept代替microservicecloud-dept服务
+
+
+info:
+ app.name: atguigu-microcloud
+ company.name: www.atguigu.com
+ build.artifactId: $project.artifactId$
+ build.version: $project.version$
